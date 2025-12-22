@@ -1,0 +1,11 @@
+CREATE CONSTRAINT case_id IF NOT EXISTS
+FOR (c:Case) REQUIRE c.case_id IS UNIQUE;
+
+CREATE CONSTRAINT statute_id IF NOT EXISTS
+FOR (s:Statute) REQUIRE s.statute_id IS UNIQUE;
+
+CREATE CONSTRAINT court_name IF NOT EXISTS
+FOR (c:Court) REQUIRE c.name IS UNIQUE;
+
+CREATE INDEX case_year IF NOT EXISTS
+FOR (c:Case) ON (c.year);
