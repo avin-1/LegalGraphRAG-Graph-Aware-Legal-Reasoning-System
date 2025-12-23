@@ -3,6 +3,9 @@ import os
 # Load env from parent directory (root of project)
 load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env'))
 
+# Disable Chroma Telemetry to speed up startup and avoid errors
+os.environ["ANONYMIZED_TELEMETRY"] = "False"
+
 from flask import Flask, request
 # ... imports ...
 from flask_cors import CORS
@@ -16,10 +19,11 @@ import json
 app = Flask(__name__)
 CORS(app)
 
-from app.orchestration.runner import run_research
+# Lazy loading these to prevent startup timeouts on Render
+# from app.orchestration.runner import run_research <-- Unused and heavy
 # from rq import Queue <-- REMOVED
 from app.storage.redis_client import redis_conn
-from app.ingestion.pdf_ingestor import ingest_pdf
+# from app.ingestion.pdf_ingestor import ingest_pdf <-- Moved to inside uploadFiles
 
 # q = Queue(connection=redis_conn) <-- REMOVED
 
@@ -80,6 +84,9 @@ def uploadFiles():
         return "Please select at least one file", 400
 
     saved_files = []
+    
+    # Lazy import to avoid loading heavy ML models at startup
+    from app.ingestion.pdf_ingestor import ingest_pdf
 
     for f in files:
         if f.filename == "":
