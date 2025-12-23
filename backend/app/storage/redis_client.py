@@ -26,14 +26,23 @@ def get_redis_connection():
 
     # Try connecting to real Redis
     try:
-        host = os.getenv("REDIS_HOST", "localhost")
-        print(f"--- [STORAGE] Attempting to connect to Redis at {host}... ---")
-        client = redis.Redis(
-            host=host,
-            port=6379,
-            decode_responses=True,
-            socket_connect_timeout=1  # Fast fail
-        )
+        redis_url = os.getenv("REDIS_URL")
+        if redis_url:
+            print(f"--- [STORAGE] Attempting to connect to Redis via REDIS_URL... ---")
+            client = redis.from_url(
+                redis_url,
+                decode_responses=True,
+                socket_connect_timeout=1
+            )
+        else:
+            host = os.getenv("REDIS_HOST", "localhost")
+            print(f"--- [STORAGE] Attempting to connect to Redis at {host}... ---")
+            client = redis.Redis(
+                host=host,
+                port=6379,
+                decode_responses=True,
+                socket_connect_timeout=1  # Fast fail
+            )
         client.ping()
         print("--- [STORAGE] Connected to Redis successfully. ---")
         redis_conn = client

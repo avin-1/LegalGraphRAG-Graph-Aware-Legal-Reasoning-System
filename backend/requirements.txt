@@ -4,6 +4,7 @@ colorama==0.4.6
 dotenv==0.9.9
 Flask==3.1.2
 flask-cors==5.0.0
+gunicorn==21.2.0
 itsdangerous==2.2.0
 Jinja2==3.1.6
 MarkupSafe==3.0.3
@@ -12,3 +13,12 @@ neo4j==5.28.2
 python-dotenv==1.2.1
 pytz==2025.2
 Werkzeug==3.1.4
+chromadb==0.4.22
+langchain
+langgraph
+openai
+pypdf
+redis
+sentence-transformers
+numpy
+tavily-python
