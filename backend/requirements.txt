@@ -20,5 +20,5 @@ openai
 pypdf
 redis
 sentence-transformers
-numpy
+numpy<2.0.0
 tavily-python
