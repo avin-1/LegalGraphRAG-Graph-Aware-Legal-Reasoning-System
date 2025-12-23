@@ -43,6 +43,8 @@ const KnowledgeBaseModule = () => {
         setFiles((prev) => prev.filter((_, i) => i !== index));
     };
 
+    const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+
     const uploadFiles = async () => {
         if (files.length === 0) return;
 
@@ -53,8 +55,8 @@ const KnowledgeBaseModule = () => {
         });
 
         try {
-            // Updated to point to localhost:8000
-            const response = await fetch('http://127.0.0.1:8000/uploadFiles', {
+            // Updated to point to dynamic API URL
+            const response = await fetch(`${API_URL}/uploadFiles`, {
                 method: 'POST',
                 body: formData,
             });
